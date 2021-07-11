@@ -1,9 +1,12 @@
-const express = require('express');
-const request = require('request-promise');
+import express from 'express';
+import request from 'request-promise';
+import dotenv from 'dotenv';
 
 const app = express();
+dotenv.config();
+
 const PORT = process.env.PORT || 5000;
-const apiKey = '0c9fc0a6def8b5d9ae74012ebb5b4065';
+const apiKey = process.env.API_KEY;
 const baseUrl = `http://api.scraperapi.com?api_key=${apiKey}&autoparse=true`;
 
 app.use(express.json());
@@ -17,7 +20,7 @@ app.get('/products/:productId', async (req, res) => {
     const { productId } = req.params;
 
     try {
-        const response = await request(`${baseUrl}&url=https://www.amazon.com/dp/${productId}`);
+        const response = await request(`${baseUrl}&url=https://www.amazon.in/dp/${productId}`);
 
         res.json(JSON.parse(response));
     } catch (error) {
